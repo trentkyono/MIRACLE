@@ -9,7 +9,7 @@ This code has been inspired by the work of [1,2,3,4].
 - Python 3.6+
 - `tensorflow`
 - `numpy`
-- `network`
+- `networkx`
 - `scikit-learn`
 - `pandas`
 
