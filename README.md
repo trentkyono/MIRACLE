@@ -21,10 +21,13 @@ This code has been inspired by the work of [1,2,3,4].
 
 ## Examples
 
+
 Base example on toy dag.
 ```bash
 $ python run_example.py
 ```
+
+This specific instantiation returns a Baseline RMSE of approximately 0.95 with MIRACLE RMSE of approximately 0.40.
 
 An example to run toy example with a dataset size of 2000 for 300 max_steps with a missingness of 30%
 ```bash
