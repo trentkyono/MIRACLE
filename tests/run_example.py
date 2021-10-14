@@ -5,7 +5,6 @@ from signal import SIGINT, signal
 
 import networkx as nx
 import numpy as np
-import pandas as pd
 import tensorflow.compat.v1 as tf
 from sklearn.preprocessing import StandardScaler
 from utils import binary_sampler, gen_data_nonlinear, handler
@@ -88,25 +87,11 @@ if __name__ == "__main__":
 
     # Append indicator variables - One indicator per feature with missing values.
     missing_idxs = np.where(np.any(np.isnan(X_MISSING), axis=0))[0]
-    df_mask = pd.DataFrame(X_MISSING)
-    df_mask = df_mask.where(df_mask.isnull(), 0)
-    df_mask = df_mask.mask(df_mask.isnull(), 1)
-    indicators = df_mask[df_mask.columns[df_mask.isin([1]).any()]].values
-    indicators = 1 - indicators
-    X_MISSING_c = np.concatenate([X_MISSING, indicators], axis=1)
-    imputed_data_x_c = np.concatenate([imputed_data_x, indicators], axis=1)
-    num_input_missing = indicators.shape[1]
-    X_MASK_c = np.concatenate(
-        [X_MASK, np.ones((X_MASK.shape[0], num_input_missing))], axis=1
-    )
-    X_TRUTH_c = np.concatenate(
-        [X_TRUTH, np.ones((X_TRUTH.shape[0], num_input_missing))], axis=1
-    )
 
     # Initialize MIRACLE
     miracle = MIRACLE(
-        num_train=X_MISSING_c.shape[0],
-        num_inputs=X_MISSING_c.shape[1],
+        num_train=X_MISSING.shape[0],
+        num_inputs=X_MISSING.shape[1],
         reg_lambda=args.reg_lambda,
         reg_beta=args.reg_beta,
         n_hidden=32,
@@ -121,10 +106,8 @@ if __name__ == "__main__":
 
     # Train MIRACLE
     miracle_imputed_data_x, _pred_matrix, last_n = miracle.fit(
-        X_MISSING_c,
-        X_MASK_c,
-        num_nodes=np.shape(X_MISSING_c)[1],
-        X_seed=imputed_data_x_c,
+        X_MISSING,
+        X_seed=imputed_data_x,
     )
 
     log.info(f"Baseline RMSE {miracle.rmse_loss(X_TRUTH, imputed_data_x, X_MASK)}")

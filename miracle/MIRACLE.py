@@ -2,6 +2,7 @@ import random
 from typing import Optional
 
 import numpy as np
+import pandas as pd
 import tensorflow.compat.v1 as tf
 from sklearn.metrics import mean_squared_error
 
@@ -48,7 +49,7 @@ class MIRACLE(object):
         self.reg_beta = reg_beta
         self.reg_m = reg_m
         self.batch_size = batch_size
-        self.num_inputs = num_inputs
+        self.num_inputs = num_inputs + num_inputs  # input + indicator
         self.n_hidden = n_hidden
         self.hidden_layers = hidden_layers
         self.num_outputs = num_outputs
@@ -296,15 +297,16 @@ class MIRACLE(object):
         except BaseException:
             pass
 
-    def fit(
+    def _fit(
         self,
         X_missing: np.ndarray,
         X_mask: np.ndarray,
-        num_nodes: int,
         X_seed: Optional[np.ndarray] = None,
         early_stopping: bool = False,
     ) -> np.ndarray:
         X = X_missing.copy()
+        num_nodes = np.shape(X_missing)[1]
+
         log.info(
             f"""Using hyperparameters
             reg_lambda = {self.reg_lambda},
@@ -312,14 +314,13 @@ class MIRACLE(object):
             reg_m = {self.reg_m}, lr = {self.learning_rate}
             """
         )
-        from random import sample
 
         rho_i = np.array([[1]])
         alpha_i = np.array([[1.0]])
         best_loss = 1e9
 
         one_hot_sample = [0] * self.num_inputs
-        subset_ = sample(range(self.num_inputs), num_nodes)
+        subset_ = random.sample(range(self.num_inputs), num_nodes)
         for j in subset_:
             one_hot_sample[j] = 1
 
@@ -400,15 +401,43 @@ class MIRACLE(object):
 
             if len(avg_seed) >= self.window:
                 avg_seed.pop(0)
-            avg_seed.append(self.pred(X))
+            avg_seed.append(self.transform(X))
 
         if early_stopping:
             self.saver.restore(self.sess, self.tmp)
 
-        log.debug(self.pred(X))
+        log.debug(self.transform(X))
 
         X_pred = np.mean(np.array(avg_seed), axis=0)
         return X * X_mask + X_pred * (1 - X_mask), X_pred, avg_seed
+
+    def fit(
+        self, X_missing: np.ndarray, X_seed: Optional[np.ndarray] = None
+    ) -> np.ndarray:
+        if X_seed is None:
+            X_seed = X_missing.copy()
+            col_mean = np.nanmean(X_seed, axis=0)
+            inds = np.where(np.isnan(X_seed))
+            X_seed[inds] = np.take(col_mean, inds[1])
+
+        df_mask = pd.DataFrame(X_missing)
+        df_mask = df_mask.where(df_mask.isnull(), 0)
+        df_mask = df_mask.mask(df_mask.isnull(), 1)
+
+        indicators = df_mask[df_mask.columns[df_mask.isin([1]).any()]].values
+        indicators = 1 - indicators
+
+        X_MASK = np.ones(X_missing.shape)
+        X_MASK[np.isnan(X_missing)] = 0
+
+        X_MISSING_c = np.concatenate([X_missing, indicators], axis=1)
+        X_seed_c = np.concatenate([X_seed, indicators], axis=1)
+        num_input_missing = indicators.shape[1]
+        X_MASK_c = np.concatenate(
+            [X_MASK, np.ones((X_MASK.shape[0], num_input_missing))], axis=1
+        )
+
+        return self._fit(X_MISSING_c, X_MASK_c, X_seed=X_seed_c)
 
     def rmse_loss(
         self, ori_data: np.ndarray, imputed_data: np.ndarray, data_m: np.ndarray
@@ -417,7 +446,7 @@ class MIRACLE(object):
         denominator = np.sum(1 - data_m)
         return np.sqrt(numerator / float(denominator))
 
-    def pred(self, X: np.ndarray) -> np.ndarray:
+    def transform(self, X: np.ndarray) -> np.ndarray:
         return self.sess.run(
             self.Out,
             feed_dict={
@@ -427,30 +456,3 @@ class MIRACLE(object):
                 self.noise: 0,
             },
         )
-
-    def get_weights(self, X: np.ndarray) -> np.ndarray:
-        return self.sess.run(
-            self.W,
-            feed_dict={
-                self.X: X,
-                self.keep_prob: 1,
-                self.rho: np.array([[1.0]]),
-                self.alpha: np.array([[0.0]]),
-                self.is_train: False,
-                self.noise: 0,
-            },
-        )
-
-    def pred_W(self, X: np.ndarray) -> np.ndarray:
-        W_est = self.sess.run(
-            self.W,
-            feed_dict={
-                self.X: X,
-                self.keep_prob: 1,
-                self.rho: np.array([[1.0]]),
-                self.alpha: np.array([[0.0]]),
-                self.is_train: False,
-                self.noise: 0,
-            },
-        )
-        return np.round_(W_est, decimals=3)
