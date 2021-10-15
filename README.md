@@ -3,7 +3,9 @@
 [![Tests](https://github.com/vanderschaarlab/MIRACLE/actions/workflows/test_miracle.yml/badge.svg)](https://github.com/vanderschaarlab/MIRACLE/actions/workflows/test_miracle.yml)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/vanderschaarlab/MIRACLE/blob/main/LICENSE)
 
-This is example code for running the MIRACLE algorithm. This code has been inspired by the work of [1,2,3,4].
+Code Author: Trent Kyono
+
+This repository contains the code used for the "MIRACLE: Causally-Aware Imputation via Learning Missing Data Mechanisms" paper(2021).
 
 ## Installation
 
@@ -31,6 +33,7 @@ pytest -vsx
 
 Base example on toy dag.
 ```bash
+$ cd tests/
 $ python run_example.py
 ```
 
@@ -40,7 +43,15 @@ An example to run toy example with a dataset size of 2000 for 300 max_steps with
 ```bash
 $ python3 run_example.py --dataset_sz 2000 --max_steps 300 --missingness 0.3
 ```
-
+## Citing
+```
+@inproceedings{kyono2021miracle,
+	title        = {MIRACLE: Causally-Aware Imputation via Learning Missing Data Mechanisms},
+	author       = {Kyono, Trent and Zhang, Yao and Bellot, Alexis and van der Schaar, Mihaela},
+	year         = 2021,
+	booktitle    = {Conference on Neural Information Processing Systems(NeurIPS) 2021}
+}
+```
 ## References
 
 [1] Jinsung Yoon, James Jordon, and Mihaela van der Schaar. Gain: Missing data imputation using generative adversarial nets. In ICML, 2018.
