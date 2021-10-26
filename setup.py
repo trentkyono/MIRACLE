@@ -28,7 +28,7 @@ with open("requirements.txt") as fp:
 
 
 setuptools.setup(
-    name="miracle",
+    name="miracle_imputation",
     version=find_version(),
     author="Trent Kyono",
     author_email="",

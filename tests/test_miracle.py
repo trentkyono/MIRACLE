@@ -19,7 +19,7 @@ enable_reproducible_results(0)
 
 
 def helper_generate_dummy_data(
-    dataset_sz: int = 1000,
+    dataset_sz: int = 3000,
     missingness: float = 0.2,
     feature_size: int = 10,
 ) -> tuple:
@@ -105,7 +105,7 @@ def test_fit() -> None:
 
 @pytest.mark.parametrize("seed", ["ot", "missforest", "mean", "mice", "gain", "knn"])
 def test_imputers_sanity(seed: str) -> None:
-    missing, truth, mask, indices = helper_generate_dummy_data()
+    missing, truth, mask, indices = helper_generate_dummy_data(dataset_sz=500)
 
     seed_imputer = load_imputer(seed)
 
@@ -126,7 +126,7 @@ def test_imputers_sanity(seed: str) -> None:
     assert miracle_rmse < 2
 
 
-@pytest.mark.parametrize("dataset_sz", [1000, 3000, 5000])
+@pytest.mark.parametrize("dataset_sz", [3000, 5000])
 @pytest.mark.parametrize("seed", ["ot", "missforest", "mean", "mice", "gain", "knn"])
 @pytest.mark.slow
 def test_experiments_dataset_size(dataset_sz: int, seed: str) -> None:
