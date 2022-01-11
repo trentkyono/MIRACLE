@@ -338,8 +338,6 @@ class MIRACLE(object):
 
                 X_pred = np.mean(np.array(avg_seed), axis=0)
                 X = X * X_mask + X_pred * (1 - X_mask)
-                if step % 10 == 0:
-                    log.info(f"step {step}/{self.max_steps}")
 
             h_value, loss = self.sess.run(
                 [self.h, self.supervised_loss],
