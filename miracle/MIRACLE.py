@@ -42,7 +42,7 @@ class MIRACLE(object):
         self.reg_beta = reg_beta
         self.reg_m = reg_m
         self.batch_size = batch_size
-        self.num_inputs = num_inputs + num_inputs  # input + indicator
+        self.num_inputs = num_inputs + n_indicators  # input + indicator
         self.n_hidden = n_hidden
         self.num_outputs = num_outputs
         self.X = tf.placeholder("float", [None, self.num_inputs])
