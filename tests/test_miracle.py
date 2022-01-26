@@ -1,14 +1,17 @@
+# stdlib
 import sys
 
+# third party
 import networkx as nx
 import numpy as np
 import pytest
-import tensorflow.compat.v1 as tf
 from sklearn.preprocessing import StandardScaler
+import tensorflow.compat.v1 as tf
 from utils import binary_sampler, enable_reproducible_results, gen_data_nonlinear
 
-import miracle.logger as log
+# miracle absolute
 from miracle import MIRACLE
+import miracle.logger as log
 from miracle.third_party import load_imputer
 
 tf.disable_v2_behavior()

@@ -1,16 +1,19 @@
+# stdlib
 import argparse
 import os
-import sys
 from signal import SIGINT, signal
+import sys
 
+# third party
 import networkx as nx
 import numpy as np
-import tensorflow.compat.v1 as tf
 from sklearn.preprocessing import StandardScaler
+import tensorflow.compat.v1 as tf
 from utils import binary_sampler, gen_data_nonlinear, handler
 
-import miracle.logger as log
+# miracle absolute
 from miracle import MIRACLE
+import miracle.logger as log
 
 tf.disable_v2_behavior()
 np.set_printoptions(suppress=True)

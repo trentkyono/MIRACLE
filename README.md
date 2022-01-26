@@ -26,7 +26,7 @@ pytest -vsx
 
 - `miracle/MIRACLE.py` - Imputer/Refiner Class. This class takes a baseline imputation and returns a refined imputation. This code has been forked from [2].
 - `miracle/third_party` - Reference imputers: Mean, Missforest, MICE, GAIN, Sinkhorn, KNN.
-- `tests/run_example.py` - runs a nonlinear toy DAG example.  Uses mean imputation as a baseline and applies MIRACLE to refine.  
+- `tests/run_example.py` - runs a nonlinear toy DAG example.  Uses mean imputation as a baseline and applies MIRACLE to refine.
 
 ## Examples
 
@@ -60,4 +60,4 @@ $ python3 run_example.py --dataset_sz 2000 --max_steps 300 --missingness 0.3
 
 [3] Zheng, X., Aragam, B., Ravikumar, P., & Xing, E. P. (2018). DAGs with NO TEARS: Continuous optimization for structure learning (NeurIPS 2018).
 
-[4] Zheng, X., Dan, C., Aragam, B., Ravikumar, P., & Xing, E. P. (2020). Learning sparse nonparametric DAGs (AISTATS 2020). 
+[4] Zheng, X., Dan, C., Aragam, B., Ravikumar, P., & Xing, E. P. (2020). Learning sparse nonparametric DAGs (AISTATS 2020).

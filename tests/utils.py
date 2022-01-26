@@ -1,6 +1,8 @@
+# stdlib
 import random
 from typing import Any
 
+# third party
 import networkx as nx
 import numpy as np
 import pandas as pd

@@ -1,12 +1,11 @@
 # stdlib
 from typing import Any
 
-import numpy as np
-import torch
-
 # third party
 from geomloss import SamplesLoss
+import numpy as np
 from sklearn.base import TransformerMixin
+import torch
 
 
 class SinkhornImputation(TransformerMixin):
