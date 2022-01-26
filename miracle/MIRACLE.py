@@ -1,11 +1,14 @@
+# stdlib
 import random
 from typing import Optional
 
+# third party
 import numpy as np
 import pandas as pd
-import tensorflow.compat.v1 as tf
 from sklearn.metrics import mean_squared_error
+import tensorflow.compat.v1 as tf
 
+# miracle absolute
 import miracle.logger as log
 
 np.set_printoptions(suppress=True)
@@ -275,7 +278,11 @@ class MIRACLE(object):
                 + self.Lambda * self.rho * self.supervised_loss
             )
 
-        self.sess = tf.Session()
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+
+        self.sess = tf.Session(config=config)
+
         self.sess.run(tf.global_variables_initializer())
         self.saver = tf.train.Saver(var_list=tf.global_variables())
         self.tmp = ckpt_file
