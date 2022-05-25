@@ -33,7 +33,9 @@ class MIRACLE(object):
         reg_m: float = 1.0,
         window: int = 10,
         max_steps: int = 400,
+        random_seed: int = 0,
     ):
+        tf.random.set_random_seed(random_seed)
         n_indicators = len(missing_list)
         log.info(f"Number of Indicators = {n_indicators}")
         """
