@@ -2,9 +2,8 @@
 bandit
 black
 flake8
-geomloss
 networkx
 pre-commit
 pytest
-
 torch
+geomloss
