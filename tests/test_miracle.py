@@ -106,7 +106,7 @@ def test_fit() -> None:
     assert miracle.rmse_loss(truth, miracle_imputed_data_x, mask)
 
 
-@pytest.mark.parametrize("seed", ["ot", "missforest", "mean", "mice", "gain", "knn"])
+@pytest.mark.parametrize("seed", ["missforest", "mean", "mice", "gain", "knn"])
 def test_imputers_sanity(seed: str) -> None:
     missing, truth, mask, indices = helper_generate_dummy_data(dataset_sz=500)
 
@@ -130,7 +130,7 @@ def test_imputers_sanity(seed: str) -> None:
 
 
 @pytest.mark.parametrize("dataset_sz", [3000, 5000])
-@pytest.mark.parametrize("seed", ["ot", "missforest", "mean", "mice", "gain", "knn"])
+@pytest.mark.parametrize("seed", ["missforest", "mean", "mice", "gain", "knn"])
 @pytest.mark.slow
 def test_experiments_dataset_size(dataset_sz: int, seed: str) -> None:
     missing, truth, mask, indices = helper_generate_dummy_data(dataset_sz=dataset_sz)
@@ -152,7 +152,7 @@ def test_experiments_dataset_size(dataset_sz: int, seed: str) -> None:
 
 
 @pytest.mark.parametrize("missingness", [0.2, 0.4, 0.7])
-@pytest.mark.parametrize("seed", ["ot", "missforest", "mean", "mice", "gain", "knn"])
+@pytest.mark.parametrize("seed", ["missforest", "mean", "mice", "gain", "knn"])
 @pytest.mark.slow
 def test_experiments_missingness(missingness: float, seed: str) -> None:
     missing, truth, mask, indices = helper_generate_dummy_data(missingness=missingness)
@@ -174,7 +174,7 @@ def test_experiments_missingness(missingness: float, seed: str) -> None:
 
 
 @pytest.mark.parametrize("feature_size", [10, 50, 100])
-@pytest.mark.parametrize("seed", ["ot", "missforest", "mean", "mice", "gain", "knn"])
+@pytest.mark.parametrize("seed", ["missforest", "mean", "mice", "gain", "knn"])
 @pytest.mark.slow
 def test_experiments_feature_size(feature_size: int, seed: str) -> None:
     missing, truth, mask, indices = helper_generate_dummy_data(
