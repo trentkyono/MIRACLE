@@ -6,4 +6,3 @@ networkx
 pre-commit
 pytest
 torch
-geomloss
