@@ -1,7 +1,5 @@
-geomloss
 loguru
 numpy
 pandas
 sklearn
 tensorflow
-torch
