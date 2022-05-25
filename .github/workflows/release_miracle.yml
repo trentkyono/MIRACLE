@@ -7,10 +7,6 @@ on:
     types: [opened, synchronize, reopened]
 
 
-defaults:
-  run:
-    working-directory: alg/MIRACLE
-
 jobs:
   deploy_osx:
     runs-on: ${{ matrix.os }}
