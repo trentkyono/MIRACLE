@@ -7,7 +7,6 @@ from . import imputation_knn  # noqa: F401
 from . import imputation_mean  # noqa: F401
 from . import imputation_mice  # noqa: F401
 from . import imputation_missforest  # noqa: F401
-from . import imputation_ot  # noqa: F401
 
 
 def load_imputer(name: str) -> Any:
@@ -21,7 +20,5 @@ def load_imputer(name: str) -> Any:
         return imputation_mice.MiceImputation()
     elif name == "missforest":
         return imputation_missforest.MissForestImputation()
-    elif name == "ot":
-        return imputation_ot.SinkhornImputation()
     else:
         raise ValueError(f"unsupported imputation method {name}")
