@@ -1,5 +1,5 @@
 loguru
 numpy
 pandas
-sklearn
+scikit-learn
 tensorflow
