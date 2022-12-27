@@ -360,11 +360,7 @@ class MIRACLE(object):
                     self.noise: 0,
                 },
             )
-            log.debug(
-                "Step " + str(step) + ", Loss= " + f"{loss:.4f}",
-                " h_value:",
-                h_value,
-            )
+            log.debug(f"Step {step}, Loss= " + f"{loss:.4f}, h_value: {h_value}")
 
             idxs = np.arange(X.shape[0])
             random.shuffle(idxs)
